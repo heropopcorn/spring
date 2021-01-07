@@ -1,10 +1,31 @@
 package com.xuan;
 
+import com.xuan.controller.HelloController;
+import com.xuan.entity.User;
 import com.xuan.service.HelloService;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+
+@Configuration
+@ComponentScan("com.xuan")
 public class Entrance {
+	public static void main0(String[] args) {
+		System.out.println("造");
+		System.out.println("态");
+		System.out.println((int)'无');
+		System.out.println((int)'造');
+		System.out.println((int)'态');
+		System.out.println((char)36896);
+	}
+	/**
+	 * 使用xml的方式
+	 *
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		/**
 		 * 这是spring编译完成后新建的模块
@@ -24,5 +45,46 @@ public class Entrance {
 		ApplicationContext applicationContext = new FileSystemXmlApplicationContext(xmlPath);
 		HelloService helloService = (HelloService) applicationContext.getBean("helloService");
 		helloService.sayHello("spring demo");
+
+		//得到无参构造函数创建的对象:
+
+		User user1a = (User) applicationContext.getBean("user1");
+		User user1b = (User) applicationContext.getBean("user1");
+
+		//得到静态工厂创建的对象:
+
+		User user2a = (User) applicationContext.getBean("user2");
+		User user2c = (User) applicationContext.getBean("user2");
+
+		//得到实例工厂创建的对象:
+
+		User user3a = (User) applicationContext.getBean("user3");
+		User user3b = (User) applicationContext.getBean("user3");
+
+		System.out.println("无参构造函数创建的对象:" + user1a);
+		System.out.println("无参构造函数创建的对象:" + user1b);
+		System.out.println("静态工厂创建的对象：" + user2a);
+		System.out.println("静态工厂创建的对象：" + user2c);
+		System.out.println("实例工厂创建的对象：" + user3a);
+		System.out.println("实例工厂创建的对象：" + user3b);
+
+	}
+
+	/**
+	 * 使用注解的方式
+	 *
+	 * @param args
+	 */
+	public static void main2(String[] args) {
+		System.out.println("==========================================");
+		//此处需要传入配置类
+		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Entrance.class);
+		String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
+		for (String beanDefinitionName : beanDefinitionNames) {
+			System.out.println(beanDefinitionName);
+		}
+		HelloController helloController = (HelloController) applicationContext.getBean("helloController");
+		helloController.handleRequest();
+		System.out.println("==========================================");
 	}
 }
