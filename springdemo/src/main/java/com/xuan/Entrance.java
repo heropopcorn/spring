@@ -2,7 +2,11 @@ package com.xuan;
 
 import com.xuan.controller.HelloController;
 import com.xuan.entity.User;
+import com.xuan.entity.factory.UserFactoryBean;
 import com.xuan.service.HelloService;
+import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -61,12 +65,23 @@ public class Entrance {
 		User user3a = (User) applicationContext.getBean("user3");
 		User user3b = (User) applicationContext.getBean("user3");
 
+		//UserFactoryBean
+		/**
+		 * 在配置文件中虽然配置的类为UserFactoryBean，但是此处根据名称获取的是User类型，
+		 * 这就是因为UserFactoryBean实现了FactoryBean接口的效果
+		 * 此时如果想获取UserFactoryBean本身，只要加入FactoryBean中定义的前缀“&”即可
+		 */
+		User user4a = (User) applicationContext.getBean("user4");
+		UserFactoryBean user4b = (UserFactoryBean) applicationContext.getBean("&user4");
+
 		System.out.println("无参构造函数创建的对象:" + user1a);
 		System.out.println("无参构造函数创建的对象:" + user1b);
 		System.out.println("静态工厂创建的对象：" + user2a);
 		System.out.println("静态工厂创建的对象：" + user2c);
 		System.out.println("实例工厂创建的对象：" + user3a);
 		System.out.println("实例工厂创建的对象：" + user3b);
+		System.out.println("实例工厂创建的对象：" + user4a);
+		System.out.println("实例工厂创建的对象：" + user4b);
 
 	}
 

@@ -231,8 +231,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Create a new AbstractApplicationContext with the given parent context.
+	 * 使用定义的父上下文来创建一个新的AbstractApplicationContext
+	 * （容器工厂的处理）
 	 * @param parent the parent context
 	 */
+
 	public AbstractApplicationContext(@Nullable ApplicationContext parent) {
 		this();
 		setParent(parent);
@@ -354,6 +357,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * implementations cannot publish events.
 	 * @param event the event to publish (may be application-specific or a
 	 * standard framework event)
+	 * 将给定的事件发布给所有的监听器
+	 * 注意：金挺起在MessageSource之后初始化，以便能够在监听器实现中访问它，
+	 * 因此，MessageSource实现不能发布事件。
 	 */
 	@Override
 	public void publishEvent(ApplicationEvent event) {
@@ -512,6 +518,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return this.applicationListeners;
 	}
 
+	/**
+	 * 容器初始化操作
+	 * 由于这是一个启动方法，如果失败，应该销毁已经创建的单例，以避免悬资源
+	 * 换言之，在调用这个方法之后，要么全部被实例化，要么完全不实例化
+	 * @throws BeansException
+	 * @throws IllegalStateException
+	 */
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
@@ -819,6 +832,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Add beans that implement ApplicationListener as listeners.
 	 * Doesn't affect other listeners, which can be added without being beans.
+	 * 注册监听器
 	 */
 	protected void registerListeners() {
 		// Register statically specified listeners first.

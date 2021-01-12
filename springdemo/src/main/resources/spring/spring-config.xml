@@ -12,9 +12,12 @@
 	<!-- factory-method的值写要调用的方法-->
 	<bean id="user2" class="com.xuan.entity.factory.StaticFactory" factory-method="getUser" scope="singleton"/>
 
+
 	<!-- 3.使用实例工厂逬行创建-->
 	<!--需要先创建factoryBean对象，再通过factoryBean对象进行调用-->
 	<bean id="userFactory" class="com.xuan.entity.factory.UserFactory"/>
 
 	<bean id="user3" factory-bean="userFactory" factory-method="getUser" scope="prototype"/>
+
+	<bean id="user4" class="com.xuan.entity.factory.UserFactoryBean"  scope="singleton"/>
 </beans>

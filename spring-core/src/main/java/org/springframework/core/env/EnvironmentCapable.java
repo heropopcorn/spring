@@ -43,6 +43,14 @@ public interface EnvironmentCapable {
 	/**
 	 * Return the {@link Environment} associated with this component.
 	 */
+	/*
+	mynote:
+	获取环境（即容器的一些启动参数）
+	如可以在java启动命令中传入参数：
+	-Dparam1=value1
+	可以通过其子类Environment的子类ConfigurableEnvironment提供的方法
+	getSystemProperties获取Map，然后根据key值param1获取传入的参数
+	 */
 	Environment getEnvironment();
 
 }
