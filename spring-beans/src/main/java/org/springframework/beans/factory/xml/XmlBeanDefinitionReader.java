@@ -338,6 +338,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 					//如果存在编码则将其添加进InputSource中
 					inputSource.setEncoding(encodedResource.getEncoding());
 				}
+				//在spring中，前面带do的方法一般都是真正做事情的方法  ↓
 				return doLoadBeanDefinitions(inputSource, encodedResource.getResource());
 			}
 			finally {
@@ -394,7 +395,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			throws BeanDefinitionStoreException {
 
 		try {
+			//创建Document对象，XML的文档对象，就是dom树
+			//使用SAX XML解析
 			Document doc = doLoadDocument(inputSource, resource);
+			//向容器中注册BeanDefinition  ↓
 			int count = registerBeanDefinitions(doc, resource);
 			if (logger.isDebugEnabled()) {
 				logger.debug("Loaded " + count + " bean definitions from " + resource);
@@ -513,9 +517,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see BeanDefinitionDocumentReader#registerBeanDefinitions
 	 */
 	public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
+		//创建BeanDefinitionDocumentReader，这是实际从XML的DOM树种读取的BeanDefinition
 		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
+		//获取注册表beanDefinitionMap的在本次加载前的BeanDefinition数量
 		int countBefore = getRegistry().getBeanDefinitionCount();
+		//加载并注册
 		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
+		//本次加载注册容器里的BeanDefinition的数量减去之前的，就是本次加载的数量
 		return getRegistry().getBeanDefinitionCount() - countBefore;
 	}
 
