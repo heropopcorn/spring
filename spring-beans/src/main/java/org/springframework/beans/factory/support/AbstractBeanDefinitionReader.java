@@ -258,6 +258,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		Assert.notNull(locations, "Location array must not be null");
 		int count = 0;
 		for (String location : locations) {
+			//逐个调用
 			count += loadBeanDefinitions(location);
 		}
 		return count;

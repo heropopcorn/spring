@@ -302,6 +302,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	@Override
 	public int loadBeanDefinitions(Resource resource) throws BeanDefinitionStoreException {
+		//使用EncodedResource包装资源实例
 		return loadBeanDefinitions(new EncodedResource(resource));
 	}
 

@@ -30,7 +30,7 @@ public class Entrance {
 	 *
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main1(String[] args) {
 		/**
 		 * 这是spring编译完成后新建的模块
 		 * 首先需要先测试这个main函数能否在当前环境下正常运行
@@ -90,7 +90,7 @@ public class Entrance {
 	 *
 	 * @param args
 	 */
-	public static void main2(String[] args) {
+	public static void main(String[] args) {
 		System.out.println("==========================================");
 		//此处需要传入配置类
 		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Entrance.class);
