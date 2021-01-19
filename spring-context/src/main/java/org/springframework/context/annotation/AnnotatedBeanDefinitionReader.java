@@ -281,7 +281,10 @@ public class AnnotatedBeanDefinitionReader {
 		}
 
 		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
+		//此行代码与动态代理和scope注解有关，主要看看是否依照Spring的scope生成动态代理对象
+		//在本案例（使用注解解析）中没有做任何操作，只是返回了传入的definitionHolder
 		definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);
+		//向容器中注册扫描的Bean
 		BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry);
 	}
 
