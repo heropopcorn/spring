@@ -241,14 +241,20 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	@SuppressWarnings("unchecked")
 	protected <T> T doGetBean(final String name, @Nullable final Class<T> requiredType,
 			@Nullable final Object[] args, boolean typeCheckOnly) throws BeansException {
-
+		//通过三种形式获取beanName
+		//一个是原始的beanName，一个是加了&的，一个是别名
 		final String beanName = transformedBeanName(name);
 		Object bean;
 
 		// Eagerly check singleton cache for manually registered singletons.
+		//尝试从单例缓存集合里获取bean实例
 		Object sharedInstance = getSingleton(beanName);
+		//如果先前已经创建过单例Bean实例，并且调用的getBean方法传入的参数为空
+		//则执行if里面的逻辑
+		//args之所以要求为空是因为如果有args，则需要进一步赋值，因此无法直接返回
 		if (sharedInstance != null && args == null) {
 			if (logger.isTraceEnabled()) {
+				//如果Bean还在创建中，则说明是循环引用
 				if (isSingletonCurrentlyInCreation(beanName)) {
 					logger.trace("Returning eagerly cached instance of singleton bean '" + beanName +
 							"' that is not fully initialized yet - a consequence of a circular reference");
@@ -257,12 +263,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					logger.trace("Returning cached instance of singleton bean '" + beanName + "'");
 				}
 			}
+			//如果是普通Bean，则直接返回，如果是FactoryBean，则返回他的getObject
 			bean = getObjectForBeanInstance(sharedInstance, name, beanName, null);
 		}
-
+		//若scope为prototype或者单例模式但是缓存还不存在bean
 		else {
 			// Fail if we're already creating this bean instance:
 			// We're assumably within a circular reference.
+			//如果scope
 			if (isPrototypeCurrentlyInCreation(beanName)) {
 				throw new BeanCurrentlyInCreationException(beanName);
 			}

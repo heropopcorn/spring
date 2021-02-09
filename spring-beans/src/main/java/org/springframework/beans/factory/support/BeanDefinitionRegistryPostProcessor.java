@@ -20,6 +20,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 
 /**
+ * 允许在正常的BeanDefinitionPostProcessor检测开始之前注册更多的自定义BeanDefinition
  * Extension to the standard {@link BeanFactoryPostProcessor} SPI, allowing for
  * the registration of further bean definitions <i>before</i> regular
  * BeanFactoryPostProcessor detection kicks in. In particular,
@@ -39,6 +40,7 @@ public interface BeanDefinitionRegistryPostProcessor extends BeanFactoryPostProc
 	 * bean definitions before the next post-processing phase kicks in.
 	 * @param registry the bean definition registry used by the application context
 	 * @throws org.springframework.beans.BeansException in case of errors
+	 * （将BeanDefinition注册到registry中）
 	 */
 	void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException;
 

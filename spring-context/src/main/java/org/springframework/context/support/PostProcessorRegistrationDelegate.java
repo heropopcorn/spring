@@ -60,7 +60,9 @@ final class PostProcessorRegistrationDelegate {
 
 		if (beanFactory instanceof BeanDefinitionRegistry) {
 			BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
+			//用于记录常规BeanFactoryPostProcessor
 			List<BeanFactoryPostProcessor> regularPostProcessors = new ArrayList<>();
+			//用于记录BeanDefinitionRegistryPostProcessor,此列表会被有限执行（相比于常规的BeanFactoryPostProcessor）
 			List<BeanDefinitionRegistryPostProcessor> registryProcessors = new ArrayList<>();
 
 			for (BeanFactoryPostProcessor postProcessor : beanFactoryPostProcessors) {
@@ -278,6 +280,7 @@ final class PostProcessorRegistrationDelegate {
 
 	/**
 	 * Invoke the given BeanFactoryPostProcessor beans.
+	 * 调用BeanFactoryPost
 	 */
 	private static void invokeBeanFactoryPostProcessors(
 			Collection<? extends BeanFactoryPostProcessor> postProcessors, ConfigurableListableBeanFactory beanFactory) {

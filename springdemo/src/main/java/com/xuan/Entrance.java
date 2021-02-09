@@ -101,5 +101,6 @@ public class Entrance {
 		HelloController helloController = (HelloController) applicationContext.getBean("helloController");
 		helloController.handleRequest();
 		System.out.println("==========================================");
+		System.out.println(applicationContext.getBean("userTest"));
 	}
 }
